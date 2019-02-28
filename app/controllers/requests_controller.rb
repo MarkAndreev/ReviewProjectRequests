@@ -29,11 +29,15 @@ class RequestsController < ApplicationController
 
     respond_to do |format|
       if @request.save
-        format.html { redirect_to @request, notice: 'Request was successfully created.' }
-        format.json { render :show, status: :created, location: @request }
+        if @request.email != ""
+          format.html { redirect_to root_path, notice: 'Спасибо мы обязательно с вами свяжемся!' }
+        else
+          format.html { redirect_to root_path, notice: 'Спасибо за ваш отзыв!' }
+        end
+        #format.json { render :show, status: :created, location: @request }
       else
         format.html { render :new }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        #format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end
   end
