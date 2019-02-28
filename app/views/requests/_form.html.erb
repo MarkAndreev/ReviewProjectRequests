@@ -1,10 +1,14 @@
-<%= simple_form_for(@request) do |f| %>
+<%= simple_form_for @request do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :name, label: "Ваше имя:" %>
+    <%= f.input :email, label: "Email" %>
+    <%= f.input :description, label: "Вопрос или отзыв:" %>
+    <%= f.input :rating, label: "Оцените нас:", collection: 1..5, default: 1 %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, "Отправить", class: "btn btn-primary mb-5" %>
   </div>
 <% end %>
