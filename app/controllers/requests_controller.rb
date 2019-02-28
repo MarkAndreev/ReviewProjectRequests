@@ -10,6 +10,7 @@ class RequestsController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
+
   end
 
   # GET /requests/new
