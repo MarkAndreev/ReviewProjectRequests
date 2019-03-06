@@ -12,4 +12,8 @@ ActiveAdmin.register Request do
 #   permitted
 # end
 
+  #page_action :update, method: :put do
+    #update code
+  #end
+
 end

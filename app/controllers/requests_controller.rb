@@ -29,6 +29,8 @@ class RequestsController < ApplicationController
 
     respond_to do |format|
       if @request.save
+        RequestMailer.with(request: @request).welcome_email.deliver_later
+
         if @request.email != ""
           format.html { redirect_to root_path, notice: 'Спасибо мы обязательно с вами свяжемся!' }
         else
@@ -45,13 +47,20 @@ class RequestsController < ApplicationController
   # PATCH/PUT /requests/1
   # PATCH/PUT /requests/1.json
   def update
+
     respond_to do |format|
       if @request.update(request_params)
-        format.html { redirect_to @request, notice: 'Request was successfully updated.' }
-        format.json { render :show, status: :ok, location: @request }
+        RequestMailer.with(request: @request).welcome_email.deliver_later
+
+        if @request.email != ""
+          format.html { redirect_to root_path, notice: 'Спасибо мы обязательно с вами свяжемся!' }
+        else
+          format.html { redirect_to root_path, notice: 'Спасибо за ваш отзыв!' }
+        end
+        #format.json { render :show, status: :created, location: @request }
       else
-        format.html { render :edit }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        format.html { render :new }
+        #format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end
   end
