@@ -50,9 +50,9 @@ class RequestsController < ApplicationController
 
     respond_to do |format|
       if @request.update(request_params)
-        RequestMailer.with(request: @request).welcome_email.deliver_later
 
         if @request.email != ""
+          RequestMailer.with(request: @request).welcome_email.deliver_later
           format.html { redirect_to root_path, notice: 'Спасибо мы обязательно с вами свяжемся!' }
         else
           format.html { redirect_to root_path, notice: 'Спасибо за ваш отзыв!' }
