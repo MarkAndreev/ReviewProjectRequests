@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-sm-8 col-xs-12 offset-lg-3 offset-md-2 offset-sm-2 mt-5">
+      <h1>Панель управления</h1>
+      <p><%= link_to "Выйти", destroy_admin_session_path, method: :delete %></p>
+      <hr>
+      <% @requests.each do |t| %>
+        <% if !t.email.blank? %>
+        <div class="cell">
+          <div class="request"><%= t.description %><%= link_to 'Ответить', edit_request_path(t), style: "float:right" %></div>
+          <hr>
+        </div>
+        <% else %>
+          <div class="cell">
+            <div class="request"><%= t.description %></div>
+            <hr>
+          </div>
+       <% end %>
+        <% end %>
+    </div>
+  </div>
+</div>

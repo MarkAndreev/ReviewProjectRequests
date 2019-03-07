@@ -1,6 +1,19 @@
-<h1>Editing Request</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-sm-8 col-xs-12 offset-lg-3 offset-md-2 offset-sm-2 mt-5">
+      <h1>Ответить на сообщение</h1>
+      <%= simple_form_for @request do |f| %>
+        <%= f.error_notification %>
+        <p>Вопрос пользователя:</p>
+        <p><%= @request.description %></p>
+        <div class="form-inputs">
+          <%= f.input :response, label: "Текст ответа" %>
+        </div>
 
-<%= render 'form', request: @request %>
-
-<%= link_to 'Show', @request %> |
-<%= link_to 'Back', requests_path %>
+        <div class="form-actions">
+          <%= f.button :submit, "Отправить", class: "btn btn-primary mb-5" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

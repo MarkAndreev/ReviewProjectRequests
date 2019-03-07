@@ -1,4 +1,5 @@
 class RequestsController < ApplicationController
+  before_action :authenticate_admin!, :only => [:update, :edit]
   before_action :set_request, only: [:show, :edit, :update, :destroy]
 
   # GET /requests
@@ -26,12 +27,16 @@ class RequestsController < ApplicationController
   # POST /requests.json
   def create
     @request = Request.new(request_params)
+    @admins = Admin.all
 
     respond_to do |format|
       if @request.save
         RequestMailer.with(request: @request).welcome_email.deliver_later
 
         if @request.email != ""
+          @admins.each do |a|
+            RequestMailer.with(request: @request, admin: a).new_request_email.deliver_late
+          end
           format.html { redirect_to root_path, notice: 'Спасибо мы обязательно с вами свяжемся!' }
         else
           format.html { redirect_to root_path, notice: 'Спасибо за ваш отзыв!' }
@@ -50,16 +55,10 @@ class RequestsController < ApplicationController
 
     respond_to do |format|
       if @request.update(request_params)
-
-        if @request.email != ""
-          RequestMailer.with(request: @request).welcome_email.deliver_later
-          format.html { redirect_to root_path, notice: 'Спасибо мы обязательно с вами свяжемся!' }
-        else
-          format.html { redirect_to root_path, notice: 'Спасибо за ваш отзыв!' }
-        end
-        #format.json { render :show, status: :created, location: @request }
+        RequestMailer.with(request: @request).response_email.deliver_later
+        format.html { redirect_to admin_dashboard_path, notice: 'Отличная работа!' }
       else
-        format.html { render :new }
+        format.html { redirect_to admin_dashboard_path }
         #format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end

@@ -1,4 +1,5 @@
 class Request < ApplicationRecord
-  #validates :description, presence: true
-  #validates :rating, presence: true
+  validates :name, presence: true
+  validates :description, presence: true
+  validates :rating, presence: true
 end
